@@ -27,24 +27,9 @@ const WorkshopDetails = ({ id }) => {
 
     return (
         <>
+        <Details {...workshop} />
 
-        
-            <div>
-                <div>id = {id}</div>
-                {
-                    workshop !== null && (
-                        // <WorkshopAllDetails {...workshop} />
-                        <>
-                            <h1>{name}</h1>
-                            <hr />
-                            <Image src={imageUrl} alt={name} fluid />
-                            <div dangerouslySetInnerHTML={{ __html: description }}></div>
-                            <div>{address}, {city}, {state}</div>
-                        </>
-                    )}
-            </div>
-
-            <div>
+        <div>
             <Link to="">List of sessions</Link>
             <Link to="add">Add a session</Link>
         </div>
