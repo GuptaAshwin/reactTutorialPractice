@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { addSession as addSessionSvc } from '../../../../services/sessions';
 
 const AddSession = ({ id }) => {
@@ -11,8 +13,10 @@ const AddSession = ({ id }) => {
     const [level, setLevel] = useState('Basic');
     const [abstract, setAbstract] = useState('');
 
-    // useForm() -> { register: function() {}, formState: { errors: { ... } }, ...}
-    const { register, formState: { errors }, getValues } = useForm({
+    const navigate = useNavigate();
+
+    // useForm() -> { register: function() {}, formState: { errors: { ... } }, handleSubmit, ...}
+    const { register, formState: { errors }, getValues, handleSubmit } = useForm({
         mode: 'all', // validates on onChange, onSubmit, onBlur
         defaultValues: {
             sequenceId: '125'
@@ -23,25 +27,28 @@ const AddSession = ({ id }) => {
 
     console.log('errors = ', errors);
 
-    async function addSession(event) {
-        event.preventDefault();
+    async function addSession(values) { // values -> all registered form input values
+        console.log('called');
 
         const session = {
             workshopId: +id,
-            sequenceId: +sequenceId,
-            // name: name
-            name,
-            speaker,
+            upvoteCount: 0,
+
+            ...values, // copy over all 6 values
+            sequenceId: +values.sequenceId, // overwrite sequenceId and duration with integer values
             duration: +duration,
-            level,
-            abstract,
-            upvoteCount: 0
         };
 
         console.log(session);
 
-        const addedSession = await addSessionSvc(session);
-        alert('Added a new session with id = ' + addedSession.id);
+        try {
+            const addedSession = await addSessionSvc(session);
+            toast(`Added a new session with name ${addedSession.name} and id  ${addedSession.id}`);
+            // navigate(`/workshops/${id}/`);
+            navigate(`..`);
+        } catch (error) {
+            toast(`Could not add the session. Try again.`);
+        }
     }
 
     // cusorm validator
@@ -69,7 +76,9 @@ const AddSession = ({ id }) => {
             <h1>Add a session</h1>
             <hr />
             <div>
-                <Form onSubmit={addSession}>
+                {/* handleSubmit(addSession) -> callAddSessionAfterValidation */}
+                {/* when user clicks -> callAddSessionAfterValidation() -> addSession() called ONLY IF form is valid (also event.preventDefault() is already called) */}
+                <Form onSubmit={handleSubmit(addSession)}>
                     <Form.Group className="mb-3" controlId="sequenceId">
                         <Form.Label>Sequence ID</Form.Label>
                         <Form.Control
@@ -159,7 +168,7 @@ const AddSession = ({ id }) => {
                     <Button variant="primary" size="sm" type="submit">Add session</Button>
                 </Form>
             </div>
-        </div>git add .
+        </div>
     );
 }
 

@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const getSessions = async (workshopId, page = 1) => {
     const response = await axios.get(`https://workshops-server.onrender.com/workshops/${workshopId}/sessions`, {
-        params: {
-            _page: page
-        }
+        // params: {
+        //     _page: page
+        // }
     });
     return response.data;
 };
