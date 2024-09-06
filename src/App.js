@@ -4,7 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 
-import ThemeContext from './contexts/ThemeContext';
+// import ThemeContext from './contexts/ThemeContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 import Menu from "./components/Menu/Menu";
 import HomePage from "./pages";
@@ -41,7 +42,7 @@ const App = () => {
     };
 
     return (
-        <ThemeContext.Provider value={value}>
+        <ThemeProvider value={value}>
             <Menu />
             <ToastContainer />
 
@@ -53,7 +54,7 @@ const App = () => {
                     <Route element={<AddWorkshopPage />} path="/workshops/add" />
                 </Routes>
             </Container>
-        </ThemeContext.Provider>
+        </ThemeProvider>
     );
 }
 

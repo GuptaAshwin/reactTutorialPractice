@@ -5,13 +5,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import {  NavLink } from 'react-router-dom';
 import './Menu.css';
 
-import ThemeContext from '../../contexts/ThemeContext';
+// import ThemeContext from '../../contexts/ThemeContext';
+
+import { useTheme } from '../../contexts/ThemeContext';
 
 
 
 function Menu() {
  
-        const { theme, toggleTheme, contrastTheme } = useContext(ThemeContext); // { theme: 'light', setTheme: fn() }
+        // const { theme, toggleTheme, contrastTheme } = useContext(ThemeContext); // { theme: 'light', setTheme: fn() }
+        const { theme, toggleTheme, contrastTheme } = useTheme();
 
         return (
             <Navbar collapseOnSelect expand="lg" className={`bg-${theme}`}>
