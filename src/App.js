@@ -29,6 +29,7 @@ const App = () => {
     // [window.location.href]
     // );
 
+    // This state and code is uncessary since we are storing state in Redux store
     const [theme, setTheme] = useState('light');
 
     const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light')
